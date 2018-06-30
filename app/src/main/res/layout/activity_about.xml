@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.AboutActivity">
+
+    <include layout="@layout/layout_appbar" />
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/carouselView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:fillColor="?attr/colorAccent"
+                app:pageColor="@android:color/transparent"
+                app:radius="4dp"
+                app:autoPlay="true"
+                app:indicatorGravity="bottom|end"
+                app:slideInterval="3000"
+                app:strokeColor="@android:color/white"
+                app:strokeWidth="1.5dp"
+                app:indicatorMarginVertical="@dimen/list_row_padding"/>
+
+            <android.support.v7.widget.CardView
+                style="@style/BaseCode.CardViewContainer">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ke.co.toshngure.views.NetworkImage
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center"
+                        app:niCircled="false"
+                        app:niSrc="@drawable/logo"/>
+
+                    <TextView
+                        style="@style/BaseCode.Body"
+                        android:text="@string/about"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+
+                    <ke.co.toshngure.views.ToshButton
+                        android:id="@+id/shareBtn"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        style="@style/GikoshButton"
+                        android:textAllCaps="true"
+                        android:layout_height="?attr/actionBarSize"
+                        android:text="@string/share_app"/>
+
+                    <ke.co.toshngure.views.ToshButton
+                        android:id="@+id/visitWebsiteBtn"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        style="@style/GikoshButton"
+                        android:textAllCaps="true"
+                        android:layout_height="?attr/actionBarSize"
+                        android:text="@string/visit_our_website"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <ke.co.toshngure.views.ToshButton
+        android:id="@+id/poweredByBtn"
+        style="@style/GikoshBorderlessButton"
+        android:textAllCaps="true"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        android:text="@string/powered_by"/>
+
+</android.support.design.widget.CoordinatorLayout>

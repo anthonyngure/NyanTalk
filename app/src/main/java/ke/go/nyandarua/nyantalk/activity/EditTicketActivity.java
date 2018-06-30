@@ -1,0 +1,210 @@
+package ke.go.nyandarua.nyantalk.activity;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.widget.Button;
+
+import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.loopj.android.http.RequestParams;
+import com.rengwuxian.materialedittext.MaterialEditText;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import ke.co.toshngure.basecode.app.BaseAppActivity;
+import ke.co.toshngure.basecode.rest.Callback;
+import ke.co.toshngure.basecode.rest.Client;
+import ke.co.toshngure.basecode.rest.ResponseHandler;
+import ke.co.toshngure.camera.ImagePicker;
+import ke.go.nyandarua.nyantalk.R;
+import ke.go.nyandarua.nyantalk.model.CreateTicketData;
+import ke.go.nyandarua.nyantalk.model.Department;
+import ke.go.nyandarua.nyantalk.model.SubCounty;
+import ke.go.nyandarua.nyantalk.model.Ticket;
+import ke.go.nyandarua.nyantalk.model.Ward;
+import ke.go.nyandarua.nyantalk.network.BackEnd;
+import ke.go.nyandarua.nyantalk.utils.Extras;
+
+public class EditTicketActivity extends BaseActivity {
+
+    private static final int IMAGE_REQUEST_CODE = 100;
+    @BindView(R.id.subjectMET)
+    MaterialEditText subjectMET;
+    @BindView(R.id.detailsMET)
+    MaterialEditText detailsMET;
+    @BindView(R.id.subCountyMS)
+    MaterialSpinner subCountyMS;
+    @BindView(R.id.wardMS)
+    MaterialSpinner wardMS;
+    @BindView(R.id.departmentMS)
+    MaterialSpinner departmentMS;
+    @BindView(R.id.imageIP)
+    ImagePicker imageIP;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.submitBtn)
+    Button submitBtn;
+    private CreateTicketData mCreateTicketData;
+    private SubCounty mSelectedSubCounty;
+    private Ward mSelectedWard;
+    private Department mSelectedDepartment;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_ticket);
+        ButterKnife.bind(this);
+        getData();
+        imageIP.setActivity(this, IMAGE_REQUEST_CODE, false);
+    }
+
+    private void getData() {
+        String url = Client.absoluteUrl(BackEnd.EndPoints.TICKETS_CREATE);
+        Client.getInstance().getClient().get(url, new ResponseHandler(new CreateTicketDataCallback()));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        imageIP.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @OnClick(R.id.submitBtn)
+    public void onSubmitBtnClicked() {
+        String subject = subjectMET.getText().toString();
+        String details = detailsMET.getText().toString();
+        if (TextUtils.isEmpty(subject)) {
+            toast(R.string.error_subject);
+        } else if (TextUtils.isEmpty(details)) {
+            toast(R.string.error_details);
+        } else if (mSelectedSubCounty == null) {
+            toast(R.string.error_sub_county);
+        } else if (mSelectedWard == null) {
+            toast(R.string.error_ward);
+        } else if (mSelectedDepartment == null) {
+            toast(R.string.error_department);
+        } else {
+            RequestParams params = new RequestParams();
+            params.put(BackEnd.Params.SUBJECT, subject);
+            params.put(BackEnd.Params.DETAILS, details);
+            params.put(BackEnd.Params.SUB_COUNTY_ID, mSelectedSubCounty.getId());
+            params.put(BackEnd.Params.WARD_ID, mSelectedWard.getId());
+            params.put(BackEnd.Params.DEPARTMENT_ID, mSelectedDepartment.getId());
+            String url = Client.absoluteUrl(BackEnd.EndPoints.TICKETS);
+            Client.getInstance().getClient().post(url, params, new ResponseHandler(new SubmitCallback()));
+        }
+
+    }
+
+    private class SubmitCallback extends Callback<Ticket> {
+
+        SubmitCallback() {
+            super(EditTicketActivity.this, Ticket.class);
+        }
+
+        @Override
+        protected void onRetry() {
+            super.onRetry();
+            onSubmitBtnClicked();
+        }
+
+        @Override
+        protected void onResponse(Ticket item) {
+            super.onResponse(item);
+            Intent intent = new Intent();
+            intent.putExtra(Extras.TICKET, item);
+            setResult(Activity.RESULT_OK);
+            EditTicketActivity.this.finish();
+        }
+    }
+
+    private class CreateTicketDataCallback extends Callback<CreateTicketData> {
+
+        private CreateTicketDataCallback() {
+            super(EditTicketActivity.this, CreateTicketData.class);
+        }
+
+        @Override
+        protected void onRetry() {
+            super.onRetry();
+            getData();
+        }
+
+        @Override
+        protected void onResponse(CreateTicketData item) {
+            super.onResponse(item);
+            mCreateTicketData = item;
+            initSpinners();
+        }
+    }
+
+    private void initSpinners() {
+        List<String> subCountyNames = new ArrayList<>();
+        for (SubCounty subCounty : mCreateTicketData.subCounties) {
+            subCountyNames.add(subCounty.getName());
+        }
+        subCountyMS.setItems(subCountyNames);
+        subCountyMS.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item) -> {
+            for (SubCounty subCounty : mCreateTicketData.subCounties) {
+                String name = subCountyNames.get(position);
+                if (subCounty.getName().equals(name)) {
+                    mSelectedSubCounty = subCounty;
+                    break;
+                }
+            }
+            updateWardsMS();
+        });
+
+        List<String> departmentNames = new ArrayList<>();
+        for (Department department : mCreateTicketData.departments) {
+            departmentNames.add(department.getName());
+        }
+        departmentMS.setItems(departmentNames);
+        departmentMS.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item) -> {
+            for (Department department : mCreateTicketData.departments) {
+                String name = departmentNames.get(position);
+                if (department.getName().equals(name)) {
+                    mSelectedDepartment = department;
+                    break;
+                }
+            }
+        });
+    }
+
+    private void updateWardsMS() {
+        if (mSelectedSubCounty == null) {
+            wardMS.setEnabled(false);
+        } else {
+            List<String> wardNames = new ArrayList<>();
+            for (Ward ward : mSelectedSubCounty.wards) {
+                wardNames.add(ward.getName());
+            }
+            wardMS.setItems(wardNames);
+            wardMS.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item) -> {
+                for (Ward ward : mSelectedSubCounty.wards) {
+                    String name = wardNames.get(position);
+                    if (ward.getName().equals(name)) {
+                        mSelectedWard = ward;
+                        break;
+                    }
+                }
+            });
+        }
+    }
+
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, EditTicketActivity.class);
+        context.startActivity(starter);
+    }
+
+
+}

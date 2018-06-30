@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="change_password" type="id" />
+    <item name="action_share" type="id" />
+    <item name="menu_sign_out" type="id" />
+    <item name="menu_quit_nyantalk" type="id" />
+    <item name="update_profile" type="id" />
+    <item name="item_type_ticket" type="id" />
+    <item name="item_type_topic" type="id" />
+    <item name="item_type_response" type="id" />
+    <item name="menu_about" type="id" />
+    <item name="menu_terms_of_use" type="id" />
+    <item name="menu_privacy_policy" type="id" />
+    <item name="menu_copyright" type="id" />
+    <item name="item_type_contribution" type="id" />
+</resources>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ke.co.toshngure.gikosh.activity.WelcomeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/carouselView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:fillColor="?attr/colorAccent"
+                app:pageColor="@android:color/transparent"
+                app:radius="4dp"
+                app:autoPlay="true"
+                app:indicatorGravity="bottom|end"
+                app:slideInterval="3000"
+                app:strokeColor="@android:color/white"
+                app:strokeWidth="1.5dp"
+                app:indicatorMarginVertical="@dimen/list_row_padding"/>
+
+        </FrameLayout>
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="@color/colorAccent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="?attr/actionBarSize">
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_auth_buttons"
+                    android:layout_marginLeft="?attr/actionBarSize"
+                    android:layout_marginRight="?attr/actionBarSize"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+
+                    <Button
+                        android:id="@+id/facebookLoginBtn"
+                        style="@style/GikoshBorderlessButton"
+                        android:drawableLeft="@drawable/com_facebook_button_icon_blue"
+                        android:drawablePadding="@dimen/activity_vertical_margin"
+                        android:layout_height="wrap_content"
+                        android:text="@string/login_with_facebook"
+                        android:textColor="@android:color/white"
+                        android:gravity="start|center"
+                        tools:ignore="RtlHardcoded" />
+
+                </FrameLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+
+                    <TextView
+                        android:id="@+id/orTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:padding="@dimen/list_row_padding"
+                        android:text="@string/or"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/orTV"
+                        android:layout_toStartOf="@id/orTV"
+                        android:background="@android:color/white"/>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/orTV"
+                        android:layout_toRightOf="@id/orTV"
+                        android:background="@android:color/white"/>
+
+
+
+                </RelativeLayout>
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_auth_buttons"
+                    android:layout_marginLeft="?attr/actionBarSize"
+                    android:layout_marginRight="?attr/actionBarSize"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+
+                    <ke.co.toshngure.views.ToshButton
+                        android:id="@+id/phoneLoginBtn"
+                        style="@style/GikoshBorderlessButton"
+                        android:drawableLeft="@drawable/ic_perm_phone_msg_black_24dp"
+                        android:drawablePadding="@dimen/activity_vertical_margin"
+                        android:text="@string/login_with_phone"
+                        app:tbDrawableTint="@color/colorIcons"
+                        android:textColor="@android:color/white"
+                        android:gravity="start|center"
+                        tools:ignore="RtlHardcoded" />
+
+
+                </FrameLayout>
+
+                <TextView
+                    style="@style/BaseCode.Body"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
+                    android:text="@string/about"
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

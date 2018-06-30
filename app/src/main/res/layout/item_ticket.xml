@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="?attr/selectableItemBackground"
+    android:padding="@dimen/list_row_padding">
+
+    <TextView
+        android:id="@+id/subjectTV"
+        style="@style/BaseCode.Heading"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_gravity="center"
+        android:text="@string/about" />
+
+    <ke.co.toshngure.views.ToshTextView
+        android:id="@+id/departmentTV"
+        style="@style/BaseCode.Body"
+        android:maxLines="2"
+        android:drawableLeft="@drawable/ic_group_work_black_24dp"
+        android:drawablePadding="@dimen/list_row_padding"
+        android:layout_marginBottom="@dimen/list_row_padding"
+        app:ttvDrawableTint="@color/colorPrimaryDark"
+        android:ellipsize="end"
+        tools:ignore="RtlHardcoded" />
+
+    <ke.co.toshngure.views.ToshTextView
+        android:id="@+id/wardTV"
+        style="@style/BaseCode.Body"
+        android:maxLines="2"
+        android:drawableLeft="@drawable/ic_location_on_black_16dp"
+        android:drawablePadding="@dimen/list_row_padding"
+        android:layout_marginBottom="@dimen/list_row_padding"
+        app:ttvDrawableTint="@color/colorPrimaryDark"
+        android:ellipsize="end"
+        tools:ignore="RtlHardcoded" />
+
+    <ke.co.toshngure.views.ToshTextView
+        android:id="@+id/statusTV"
+        style="@style/BaseCode.Heading"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:drawableLeft="@drawable/ic_show_chart_black_16dp"
+        android:drawablePadding="@dimen/list_row_padding"
+        app:ttvDrawableTint="@color/colorPrimaryDark"
+        android:textAllCaps="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="@string/copyright"
+        tools:ignore="RtlHardcoded" />
+
+    <TextView
+        android:id="@+id/detailsTV"
+        style="@style/BaseCode.Body"/>
+
+    <TextView
+        android:id="@+id/numberTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        style="@style/TextAppearance.AppCompat.Subhead"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/list_row_padding"
+        android:padding="@dimen/list_row_padding">
+
+        <ke.co.toshngure.views.ToshTextView
+            android:id="@+id/responsesCountTV"
+            style="@style/BaseCode.Heading"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:drawableLeft="@drawable/ic_forum_black_16dp"
+            android:drawablePadding="@dimen/list_row_padding"
+            app:ttvDrawableTint="@color/colorPrimaryDark"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAllCaps="true"
+            android:text="@string/app_name"
+            tools:ignore="RtlHardcoded" />
+
+        <ke.co.toshngure.views.ToshTextView
+            android:id="@+id/createdAtTV"
+            style="@style/BaseCode.Heading"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:drawableLeft="@drawable/ic_access_time_black_16dp"
+            android:drawablePadding="@dimen/list_row_padding"
+            app:ttvDrawableTint="@color/colorPrimaryDark"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@string/app_name"
+            tools:ignore="RtlHardcoded" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.EditTopicActivity">
+
+    <include layout="@layout/layout_appbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_vertical_margin"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/BaseCode.Body"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="@dimen/list_row_padding"
+                android:text="@string/select_forum"/>
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/forumMS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                app:ms_arrow_tint="@color/colorPrimary"
+                app:ms_hint="@string/select_forum"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/titleMET"
+                style="@style/METAuthField"
+                android:inputType="textNoSuggestions|textCapWords"
+                android:hint="@string/hint_topic_title"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:maxLines="1"
+                android:maxLength="50"
+                app:met_maxCharacters="50"
+                app:met_minCharacters="10"
+                app:met_autoValidate="false"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/descriptionMET"
+                style="@style/METAuthField"
+                android:inputType="textNoSuggestions|textImeMultiLine|textMultiLine"
+                android:hint="@string/hint_topic_description"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:gravity="bottom"
+                android:minLines="3"
+                android:maxLines="7"
+                android:maxLength="250"
+                app:met_maxCharacters="250"
+                app:met_minCharacters="50"
+                app:met_autoValidate="false"/>
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/submitBtn"
+        style="@style/GikoshButton.Flat"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        android:text="@string/submit" />
+
+</android.support.design.widget.CoordinatorLayout>

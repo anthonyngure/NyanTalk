@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.EditTicketActivity">
+
+    <include layout="@layout/layout_appbar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_vertical_margin">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/subjectMET"
+                style="@style/METAuthField"
+                android:inputType="textNoSuggestions|textCapWords"
+                android:hint="@string/hint_subject"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:maxLines="1"
+                android:maxLength="50"
+                app:met_maxCharacters="50"
+                app:met_minCharacters="10"
+                app:met_autoValidate="false"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/detailsMET"
+                style="@style/METAuthField"
+                android:inputType="textNoSuggestions|textImeMultiLine|textMultiLine"
+                android:hint="@string/hint_details"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:gravity="bottom"
+                android:minLines="3"
+                android:maxLines="7"
+                android:maxLength="400"
+                app:met_maxCharacters="400"
+                app:met_minCharacters="50"
+                app:met_autoValidate="false"/>
+
+            <TextView
+                style="@style/BaseCode.Body"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="@dimen/list_row_padding"
+                android:text="@string/select_sub_county"/>
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/subCountyMS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                app:ms_arrow_tint="@color/colorPrimary"
+                app:ms_hint="@string/select_sub_county"/>
+
+            <TextView
+                style="@style/BaseCode.Body"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="@dimen/list_row_padding"
+                android:text="@string/select_ward"/>
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/wardMS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                app:ms_arrow_tint="@color/colorPrimary"
+                app:ms_hint="@string/select_ward"/>
+
+            <TextView
+                style="@style/BaseCode.Body"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="@dimen/list_row_padding"
+                android:text="@string/select_department"/>
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/departmentMS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                app:ms_arrow_tint="@color/colorPrimary"
+                app:ms_hint="@string/select_department"/>
+
+            <TextView
+                style="@style/BaseCode.Body"
+                android:layout_width="match_parent"
+                android:padding="@dimen/list_row_padding"
+                android:text="@string/attach_an_optional_image"/>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ke.co.toshngure.camera.ImagePicker
+                    android:id="@+id/imageIP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/submitBtn"
+        style="@style/GikoshButton.Flat"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        android:text="@string/submit"/>
+
+</android.support.design.widget.CoordinatorLayout>
