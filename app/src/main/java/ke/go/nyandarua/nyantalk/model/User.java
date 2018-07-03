@@ -3,9 +3,6 @@ package ke.go.nyandarua.nyantalk.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-
 
 public class User implements Parcelable {
 
@@ -181,30 +178,6 @@ public class User implements Parcelable {
     }
 
     public void setId(long id) {
-        this.id = id;
-    }
-
-    @Generated(hash = 1561130978)
-    public User(int closedTickets, int pendingTickets, int queuedTickets, int allTickets,
-            String facebookPictureUrl, String facebookId, String token, int ticketsCount,
-            String updatedAt, String createdAt, boolean phoneVerified, String phone,
-            String email, String type, String avatar, String name, long id) {
-        this.closedTickets = closedTickets;
-        this.pendingTickets = pendingTickets;
-        this.queuedTickets = queuedTickets;
-        this.allTickets = allTickets;
-        this.facebookPictureUrl = facebookPictureUrl;
-        this.facebookId = facebookId;
-        this.token = token;
-        this.ticketsCount = ticketsCount;
-        this.updatedAt = updatedAt;
-        this.createdAt = createdAt;
-        this.phoneVerified = phoneVerified;
-        this.phone = phone;
-        this.email = email;
-        this.type = type;
-        this.avatar = avatar;
-        this.name = name;
         this.id = id;
     }
 

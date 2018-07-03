@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -19,7 +20,10 @@ import butterknife.OnClick;
 import ke.co.toshngure.basecode.rest.Callback;
 import ke.co.toshngure.basecode.rest.Client;
 import ke.co.toshngure.basecode.rest.ResponseHandler;
+import ke.co.toshngure.logging.BeeLog;
 import ke.go.nyandarua.nyantalk.R;
+import ke.go.nyandarua.nyantalk.fragment.TicketsFragment;
+import ke.go.nyandarua.nyantalk.fragment.TopicsFragment;
 import ke.go.nyandarua.nyantalk.model.Forum;
 import ke.go.nyandarua.nyantalk.model.Topic;
 import ke.go.nyandarua.nyantalk.network.BackEnd;
@@ -27,6 +31,7 @@ import ke.go.nyandarua.nyantalk.utils.Extras;
 
 public class EditTopicActivity extends BaseActivity {
 
+    private static final String TAG = "EditTopicActivity";
     @BindView(R.id.titleMET)
     MaterialEditText titleMET;
     @BindView(R.id.descriptionMET)
@@ -65,6 +70,8 @@ public class EditTopicActivity extends BaseActivity {
             requestParams.put(BackEnd.Params.DESCRIPTION, description);
             requestParams.put(BackEnd.Params.FORUM_ID, mSelectedForum.getId());
             String url = Client.absoluteUrl(BackEnd.EndPoints.TOPICS);
+            url = url + "&include=author,forum";
+            BeeLog.i(TAG, url);
             Client.getInstance().getClient().post(url, requestParams, new ResponseHandler(new SubmitCallback()));
         }
     }
@@ -116,14 +123,14 @@ public class EditTopicActivity extends BaseActivity {
             super.onResponse(item);
             Intent intent = new Intent();
             intent.putExtra(Extras.TOPIC, item);
-            setResult(Activity.RESULT_OK, intent);
+            intent.setAction(TopicsFragment.ACTION_NEW_TOPIC);
+            LocalBroadcastManager.getInstance(EditTopicActivity.this).sendBroadcast(intent);
             EditTopicActivity.this.finish();
         }
     }
 
-    public static void start(Context context) {
-        Intent starter = new Intent(context, EditTopicActivity.class);
-        context.startActivity(starter);
+    public static void start(Activity activity) {
+        Intent starter = new Intent(activity, EditTopicActivity.class);
+        activity.startActivity(starter);
     }
-
 }

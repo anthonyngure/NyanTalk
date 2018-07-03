@@ -97,6 +97,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ke.go.nyandarua.nyantalk.activity.MainActivity" />
         </activity>
+
+        <activity
+            android:name="ke.co.toshngure.camera.CameraActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ke.go.nyandarua.nyantalk.activity.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>

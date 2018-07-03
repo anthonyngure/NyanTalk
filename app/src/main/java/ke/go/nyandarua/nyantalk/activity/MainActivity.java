@@ -1,5 +1,7 @@
 package ke.go.nyandarua.nyantalk.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -14,9 +16,12 @@ import ke.go.nyandarua.nyantalk.fragment.BlankFragment;
 import ke.go.nyandarua.nyantalk.R;
 import ke.go.nyandarua.nyantalk.fragment.TicketsFragment;
 import ke.go.nyandarua.nyantalk.fragment.TopicsFragment;
+import ke.go.nyandarua.nyantalk.model.Ticket;
+import ke.go.nyandarua.nyantalk.utils.Extras;
 
 public class MainActivity extends BaseActivity {
 
+    private static final int NEW_TOPIC_REQUEST_CODE = 200;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.viewPager)
@@ -84,9 +89,9 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.fab)
     public void onFabClicked() {
-        if (viewPager.getCurrentItem() == 0){
+        if (viewPager.getCurrentItem() == 0) {
             EditTicketActivity.start(this);
-        } else  {
+        } else {
             EditTopicActivity.start(this);
         }
     }

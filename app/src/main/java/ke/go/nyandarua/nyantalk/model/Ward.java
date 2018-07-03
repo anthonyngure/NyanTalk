@@ -3,14 +3,9 @@ package ke.go.nyandarua.nyantalk.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.ToOne;
-
 public class Ward implements Parcelable {
 
-    @Id
+
     private long id;
     private String name;
     private long subCountyId;

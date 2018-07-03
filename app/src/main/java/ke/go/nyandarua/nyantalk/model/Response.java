@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.items.AbstractItem;
 
@@ -118,11 +117,11 @@ public class Response extends AbstractItem<Response, Response.ViewHolder> {
         @Override
         public void bindView(Response item, List<Object> payloads) {
             if (item.citizen != null){
-                avatarTV.loadImageFromNetwork(BackEnd.avatarUrl(item.citizen.getAvatar()));
+                avatarTV.loadImageFromNetwork(BackEnd.image(item.citizen.getAvatar()));
                 nameTV.setText(new Spanny("(Me) ").append(item.citizen.getName()));
                 departmentTV.setVisibility(View.GONE);
             } else {
-                avatarTV.loadImageFromNetwork(BackEnd.avatarUrl(item.official.getAvatar()));
+                avatarTV.loadImageFromNetwork(BackEnd.image(item.official.getAvatar()));
                 nameTV.setText(item.official.getName());
                 if (item.official.getDepartment() != null){
                     departmentTV.setVisibility(View.VISIBLE);

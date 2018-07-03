@@ -12,7 +12,7 @@ public class BackEnd {
     public static final String BASE_URL = "http://41.215.138.10:10046/api/v1";
     public static final String URL = "http://41.215.138.10:10046";
 
-    public static String avatarUrl(String relativeUrl) {
+    public static String image(String relativeUrl) {
         return URL + "/" + relativeUrl;
     }
 
@@ -22,6 +22,7 @@ public class BackEnd {
         public static final String AUTH_SIGN_UP = "/auth/signUp";
         public static final String AUTH_SIGN_IN = "/auth/signIn";
         public static final String AUTH_FACEBOOK = "/auth/facebook";
+        public static final String AUTH_GOOGLE = "/auth/google";
         public static final String AUTH_VERIFICATION = "/auth/verification";
         public static final String APPOINTMENTS = "/appointments";
         public static final String CANCEL = "/cancel";
@@ -80,6 +81,9 @@ public class BackEnd {
         public static final String DESCRIPTION = "description";
         public static final String FORUM_ID = "forumId";
         public static final String STARS = "stars";
+        public static final String IMAGE = "image";
+        public static final String GOOGLE_ID = "googleId";
+        public static final String PHOTO_URL = "photoUrl";
     }
 
 

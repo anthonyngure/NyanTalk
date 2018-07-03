@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.items.AbstractItem;
 
@@ -98,14 +97,13 @@ public class Topic extends AbstractItem<Topic, Topic.ViewHolder> implements Parc
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
         }
 
         @Override
         public void bindView(Topic item, List<Object> payloads) {
-            avatarTV.loadImageFromNetwork(BackEnd.avatarUrl(item.author.getAvatar()));
+            avatarTV.loadImageFromNetwork(BackEnd.image(item.author.getAvatar()));
             nameTV.setText(item.author.getName());
-            createdAtTV.setReferenceTime(DatesHelper.formatSqlTimestamp(item.getCreatedAt()));
+            createdAtTV.setReferenceTime(DatesHelper.formatSqlTimestamp(item.getCreatedAt()) - 30000);
             descriptionTV.setText(item.description);
             titleTV.setText(item.title);
             forumTV.setText(item.forum.getName());
@@ -130,6 +128,7 @@ public class Topic extends AbstractItem<Topic, Topic.ViewHolder> implements Parc
         dest.writeString(this.title);
         dest.writeString(this.description);
         dest.writeString(this.createdAt);
+        dest.writeInt(this.contributionsCount);
         dest.writeParcelable(this.author, flags);
         dest.writeParcelable(this.forum, flags);
     }
@@ -139,6 +138,7 @@ public class Topic extends AbstractItem<Topic, Topic.ViewHolder> implements Parc
         this.title = in.readString();
         this.description = in.readString();
         this.createdAt = in.readString();
+        this.contributionsCount = in.readInt();
         this.author = in.readParcelable(User.class.getClassLoader());
         this.forum = in.readParcelable(Forum.class.getClassLoader());
     }

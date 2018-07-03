@@ -1,30 +1,38 @@
 package ke.go.nyandarua.nyantalk.activity;
 
-import android.app.Activity;
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.loopj.android.http.RequestParams;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import ke.co.toshngure.basecode.app.BaseAppActivity;
 import ke.co.toshngure.basecode.rest.Callback;
 import ke.co.toshngure.basecode.rest.Client;
 import ke.co.toshngure.basecode.rest.ResponseHandler;
 import ke.co.toshngure.camera.ImagePicker;
 import ke.go.nyandarua.nyantalk.R;
+import ke.go.nyandarua.nyantalk.fragment.TicketsFragment;
 import ke.go.nyandarua.nyantalk.model.CreateTicketData;
 import ke.go.nyandarua.nyantalk.model.Department;
 import ke.go.nyandarua.nyantalk.model.SubCounty;
@@ -52,6 +60,8 @@ public class EditTicketActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.submitBtn)
     Button submitBtn;
+    @BindView(R.id.permissionTV)
+    TextView permissionTV;
     private CreateTicketData mCreateTicketData;
     private SubCounty mSelectedSubCounty;
     private Ward mSelectedWard;
@@ -63,7 +73,8 @@ public class EditTicketActivity extends BaseActivity {
         setContentView(R.layout.activity_edit_ticket);
         ButterKnife.bind(this);
         getData();
-        imageIP.setActivity(this, IMAGE_REQUEST_CODE, false);
+        updatePermissionsUI();
+
     }
 
     private void getData() {
@@ -98,10 +109,41 @@ public class EditTicketActivity extends BaseActivity {
             params.put(BackEnd.Params.SUB_COUNTY_ID, mSelectedSubCounty.getId());
             params.put(BackEnd.Params.WARD_ID, mSelectedWard.getId());
             params.put(BackEnd.Params.DEPARTMENT_ID, mSelectedDepartment.getId());
+
+            if (imageIP.getFile() != null) {
+                try {
+                    params.put(BackEnd.Params.IMAGE, imageIP.getFile());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
             String url = Client.absoluteUrl(BackEnd.EndPoints.TICKETS);
+            url = url + "&include=rating,department,ward.sub-county,official";
             Client.getInstance().getClient().post(url, params, new ResponseHandler(new SubmitCallback()));
         }
+    }
 
+
+    @OnClick(R.id.permissionTV)
+    public void onPermissionTVClicked() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(getMissingPermissions().toArray(new String[getMissingPermissions().size()]), 0);
+        }
+    }
+
+    private List<String> getMissingPermissions() {
+        ArrayList<String> permissions = new ArrayList<>();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.CAMERA);
+            } else if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            } else if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+        }
+        return permissions;
     }
 
     private class SubmitCallback extends Callback<Ticket> {
@@ -121,7 +163,8 @@ public class EditTicketActivity extends BaseActivity {
             super.onResponse(item);
             Intent intent = new Intent();
             intent.putExtra(Extras.TICKET, item);
-            setResult(Activity.RESULT_OK);
+            intent.setAction(TicketsFragment.ACTION_NEW_TICKET);
+            LocalBroadcastManager.getInstance(EditTicketActivity.this).sendBroadcast(intent);
             EditTicketActivity.this.finish();
         }
     }
@@ -177,7 +220,10 @@ public class EditTicketActivity extends BaseActivity {
                 }
             }
         });
+
+
     }
+
 
     private void updateWardsMS() {
         if (mSelectedSubCounty == null) {
@@ -200,11 +246,28 @@ public class EditTicketActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        updatePermissionsUI();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void updatePermissionsUI() {
+        if (getMissingPermissions().size() > 0) {
+            permissionTV.setText("Tap here or got to your device settings to allow use of CAMERA and STORAGE to be able to attach an optional image");
+            imageIP.setVisibility(View.GONE);
+            permissionTV.setVisibility(View.VISIBLE);
+        } else {
+            imageIP.setActivity(this, IMAGE_REQUEST_CODE, false);
+            imageIP.setVisibility(View.VISIBLE);
+            permissionTV.setVisibility(View.GONE);
+        }
+    }
 
     public static void start(Context context) {
         Intent starter = new Intent(context, EditTicketActivity.class);
         context.startActivity(starter);
     }
-
 
 }

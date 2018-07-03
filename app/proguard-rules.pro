@@ -19,3 +19,27 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Models
+-keep class ke.go.nyandarua.nyantalk.model.** { *; }
+
+# GreenDao rules
+# Source: http://greendao-orm.com/documentation/technical-faq
+#
+-keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
+    public static java.lang.String TABLENAME;
+}
+-keep class **$Properties
+# If you do not use SQLCipher:
+-dontwarn org.greenrobot.greendao.database.**
+# If you do not use Rx:
+-dontwarn rx.**
+
+# carouselview
+-keep class com.synnapps.carouselview.** { *; }
+
+-dontwarn pl.tajchert.waitingdots.**
+-keep public class pl.tajchert.waitingdots.** { public protected private *; }
+
+-keep class com.github.mikephil.charting.** { *; }
+-dontwarn io.realm.**

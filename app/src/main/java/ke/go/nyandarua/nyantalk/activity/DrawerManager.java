@@ -19,11 +19,9 @@ import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.holder.ImageHolder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
@@ -32,7 +30,6 @@ import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
 import ke.co.toshngure.basecode.app.ReusableFragmentActivity;
-import ke.co.toshngure.basecode.rest.Client;
 import ke.co.toshngure.basecode.utils.BaseUtils;
 import ke.go.nyandarua.nyantalk.R;
 import ke.go.nyandarua.nyantalk.fragment.ProfileEditFragment;
@@ -135,7 +132,7 @@ public class DrawerManager implements Drawer.OnDrawerItemClickListener {
         if (!TextUtils.isEmpty(user.getFacebookPictureUrl())) {
             userProfileDrawerItem.withIcon(user.getFacebookPictureUrl());
         } else {
-            userProfileDrawerItem.withIcon(BackEnd.avatarUrl(user.getAvatar()));
+            userProfileDrawerItem.withIcon(BackEnd.image(user.getAvatar()));
         }
 
 

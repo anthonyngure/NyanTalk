@@ -1,6 +1,7 @@
 package ke.go.nyandarua.nyantalk.fragment;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -14,7 +15,6 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import butterknife.BindView;
 import ke.co.toshngure.basecode.app.BaseAppActivity;
 import ke.co.toshngure.basecode.rest.Callback;
 import ke.co.toshngure.basecode.rest.Client;
@@ -24,13 +24,10 @@ import ke.co.toshngure.basecode.utils.Spanny;
 import ke.co.toshngure.dataloading2.DataLoadingConfig;
 import ke.co.toshngure.dataloading2.DefaultCursorImpl;
 import ke.co.toshngure.dataloading2.ModelListFragment;
-import ke.co.toshngure.logging.BeeLog;
 import ke.co.toshngure.views.NetworkImage;
 import ke.co.toshngure.views.ToshTextView;
 import ke.go.nyandarua.nyantalk.R;
 import ke.go.nyandarua.nyantalk.model.Contribution;
-import ke.go.nyandarua.nyantalk.model.Response;
-import ke.go.nyandarua.nyantalk.model.Ticket;
 import ke.go.nyandarua.nyantalk.model.Topic;
 import ke.go.nyandarua.nyantalk.network.BackEnd;
 import ke.go.nyandarua.nyantalk.utils.Extras;
@@ -96,6 +93,7 @@ public class ContributionsFragment extends ModelListFragment<Contribution> {
     public void setUpTopView(FrameLayout topViewContainer) {
         super.setUpTopView(topViewContainer);
         LayoutInflater.from(getActivity()).inflate(R.layout.item_topic, topViewContainer);
+        topViewContainer.setBackgroundColor(Color.LTGRAY);
         NetworkImage avatarTV = topViewContainer.findViewById(R.id.avatarTV);
         TextView nameTV = topViewContainer.findViewById(R.id.nameTV);
         ToshTextView createdAtTV = topViewContainer.findViewById(R.id.createdAtTV);
@@ -104,7 +102,7 @@ public class ContributionsFragment extends ModelListFragment<Contribution> {
         TextView forumTV = topViewContainer.findViewById(R.id.forumTV);
         TextView contributionsCountTV = topViewContainer.findViewById(R.id.contributionsCountTV);
 
-        avatarTV.loadImageFromNetwork(BackEnd.avatarUrl(mTopic.getAuthor().getAvatar()));
+        avatarTV.loadImageFromNetwork(BackEnd.image(mTopic.getAuthor().getAvatar()));
         nameTV.setText(mTopic.getAuthor().getName());
         createdAtTV.setReferenceTime(DatesHelper.formatSqlTimestamp(mTopic.getCreatedAt()));
         descriptionTV.setText(mTopic.getDescription());
@@ -153,10 +151,13 @@ public class ContributionsFragment extends ModelListFragment<Contribution> {
         @Override
         protected void onResponse(Contribution item) {
             super.onResponse(item);
-            BeeLog.i(TAG, item);
-            mFastItemAdapter.add(item);
+            if (mFastItemAdapter.getItemCount() == 0){
+                refresh();
+            } else {
+                mFastItemAdapter.add(item);
+                mRecyclerView.smoothScrollToPosition((mFastItemAdapter.getItemCount() - 1));
+            }
             mReplyET.getText().clear();
-            mRecyclerView.smoothScrollToPosition((mFastItemAdapter.getItemCount() - 1));
         }
     }
 }

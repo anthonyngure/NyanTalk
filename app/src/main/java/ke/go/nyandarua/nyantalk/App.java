@@ -7,6 +7,7 @@
 package ke.go.nyandarua.nyantalk;
 
 import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import org.json.JSONObject;
 import ke.co.toshngure.basecode.rest.Client;
@@ -17,7 +18,7 @@ import ke.go.nyandarua.nyantalk.model.User;
 import ke.go.nyandarua.nyantalk.network.BackEnd;
 import ke.go.nyandarua.nyantalk.utils.PrefUtils;
 
-public class App extends Application {
+public class App extends MultiDexApplication {
 
     private static final String TAG = App.class.getSimpleName();
 

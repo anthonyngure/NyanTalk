@@ -16,10 +16,15 @@ import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.loopj.android.http.RequestParams;
 import com.synnapps.carouselview.CarouselView;
-
-import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -47,26 +52,30 @@ public class WelcomeActivity extends BaseActivity implements
         FacebookCallback<LoginResult> {
 
     private static final String TAG = "WelcomeActivity";
+    private static final int GOOGLE_SIGN_IN_REQUEST_CODE = 100;
     @BindView(R.id.carouselView)
     CarouselView carouselView;
+    @BindView(R.id.googleLoginBtn)
+    SignInButton googleLoginBtn;
     private CallbackManager mCallbackManager;
     private static final String[] readPermissions = new String[]{"email", "public_profile"};
     LoginManager mLoginManager;
     AccessTokenTracker mAccessTokenTracker;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (isLoggedIn()){
+        if (isLoggedIn()) {
             Utils.startMainActivity(this);
-        } else  {
-         init();
+        } else {
+            init();
         }
     }
 
 
-    public void init(){
+    public void init() {
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
 
@@ -83,8 +92,54 @@ public class WelcomeActivity extends BaseActivity implements
         mCallbackManager = CallbackManager.Factory.create();
         mLoginManager.registerCallback(mCallbackManager, this);
 
+
+        googleLoginBtn.setSize(SignInButton.SIZE_STANDARD);
+
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+        /*GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        authenticateWithGoogle(account);*/
+
         //generateHashKey();
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == GOOGLE_SIGN_IN_REQUEST_CODE) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            // Signed in successfully, show authenticated UI.
+            authenticateWithGoogle(account);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            BeeLog.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            authenticateWithGoogle(null);
+        }
+    }
+
+
 
     private void generateHashKey() {
         try {
@@ -102,11 +157,6 @@ public class WelcomeActivity extends BaseActivity implements
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
-    }
 
     @Override
     public void onSuccess(LoginResult loginResult) {
@@ -141,6 +191,51 @@ public class WelcomeActivity extends BaseActivity implements
         Client.getInstance().getClient()
                 .post(Client.absoluteUrl(BackEnd.EndPoints.AUTH_FACEBOOK),
                         params, new ResponseHandler(new FacebookLoginCallback()));
+    }
+
+    private void authenticateWithGoogle(GoogleSignInAccount account) {
+        BeeLog.i(TAG, account);
+        if (account != null){
+            RequestParams params = new RequestParams();
+            params.put(BackEnd.Params.GOOGLE_ID, account.getId());
+            params.put(BackEnd.Params.EMAIL, account.getEmail());
+            params.put(BackEnd.Params.NAME, account.getDisplayName());
+            params.put(BackEnd.Params.PHOTO_URL, account.getPhotoUrl());
+            BeeLog.i(TAG, params);
+            String url = Client.absoluteUrl(BackEnd.EndPoints.AUTH_GOOGLE);
+            Client.getInstance().getClient().post(url,params, new ResponseHandler(new GoogleLoginCallback(account)));
+        }
+
+        //account.getDisplayName();
+    }
+
+    private class GoogleLoginCallback extends Callback<User> {
+
+        private GoogleSignInAccount account;
+
+        private GoogleLoginCallback(GoogleSignInAccount account) {
+            super(WelcomeActivity.this, User.class);
+            this.account = account;
+        }
+
+        @Override
+        protected void onRetry() {
+            super.onRetry();
+            authenticateWithGoogle(this.account);
+        }
+
+        @Override
+        protected void onResponse(User item) {
+            super.onResponse(item);
+            PrefUtils.getInstance().saveUser(item);
+            Utils.startMainActivity(WelcomeActivity.this);
+        }
+    }
+
+    @OnClick(R.id.googleLoginBtn)
+    public void onGoogleLoginBtnClicked() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQUEST_CODE);
     }
 
 

@@ -42,30 +42,56 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="?attr/actionBarSize">
+                android:orientation="vertical">
 
+                <TextView
+                    style="@style/BaseCode.Heading"
+                    android:text="@string/login_with_social_media"
+                    android:textAllCaps="true"
+                    android:padding="@dimen/activity_vertical_margin"
+                    android:textColor="@android:color/white"/>
 
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_auth_buttons"
-                    android:layout_marginLeft="?attr/actionBarSize"
-                    android:layout_marginRight="?attr/actionBarSize"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+                    android:baselineAligned="false"
+                    android:padding="@dimen/list_row_padding">
 
-                    <Button
-                        android:id="@+id/facebookLoginBtn"
-                        style="@style/GikoshBorderlessButton"
-                        android:drawableLeft="@drawable/com_facebook_button_icon_blue"
-                        android:drawablePadding="@dimen/activity_vertical_margin"
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="@string/login_with_facebook"
-                        android:textColor="@android:color/white"
-                        android:gravity="start|center"
-                        tools:ignore="RtlHardcoded" />
+                        android:background="@drawable/bg_auth_buttons"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:layout_marginEnd="@dimen/activity_vertical_margin">
 
-                </FrameLayout>
+                        <Button
+                            android:id="@+id/facebookLoginBtn"
+                            style="@style/GikoshBorderlessButton"
+                            android:drawableLeft="@drawable/com_facebook_button_icon_blue"
+                            android:drawablePadding="@dimen/activity_vertical_margin"
+                            android:layout_height="wrap_content"
+                            android:text="@string/login_with_facebook"
+                            android:textColor="@android:color/white"
+                            android:gravity="start|center"
+                            tools:ignore="RtlHardcoded" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_auth_buttons">
+
+                        <com.google.android.gms.common.SignInButton
+                            android:id="@+id/googleLoginBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
 
 
                 <RelativeLayout

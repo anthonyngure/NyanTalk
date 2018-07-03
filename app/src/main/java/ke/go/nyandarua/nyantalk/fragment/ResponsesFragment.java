@@ -1,6 +1,7 @@
 package ke.go.nyandarua.nyantalk.fragment;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -108,6 +109,7 @@ public class ResponsesFragment extends ModelListFragment<Response> {
     public void setUpTopView(FrameLayout topViewContainer) {
         super.setUpTopView(topViewContainer);
         LayoutInflater.from(getActivity()).inflate(R.layout.item_ticket, topViewContainer);
+        topViewContainer.setBackgroundColor(Color.LTGRAY);
         TextView subjectTV = topViewContainer.findViewById(R.id.subjectTV);
         subjectTV.setText(mTicket.getSubject());
         TextView detailsTV = topViewContainer.findViewById(R.id.detailsTV);
@@ -233,10 +235,14 @@ public class ResponsesFragment extends ModelListFragment<Response> {
         @Override
         protected void onResponse(Response item) {
             super.onResponse(item);
-            BeeLog.i(TAG, item);
-            mFastItemAdapter.add(item);
+            //BeeLog.i(TAG, item);
+            if (mFastItemAdapter.getItemCount() == 0){
+                refresh();
+            } else {
+                mFastItemAdapter.add(item);
+                mRecyclerView.smoothScrollToPosition((mFastItemAdapter.getItemCount() - 1));
+            }
             mReplyET.getText().clear();
-            mRecyclerView.smoothScrollToPosition((mFastItemAdapter.getItemCount() - 1));
         }
     }
 }

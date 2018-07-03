@@ -3,10 +3,10 @@ package ke.go.nyandarua.nyantalk.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.items.AbstractItem;
 
@@ -16,11 +16,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ke.co.toshngure.basecode.utils.DatesHelper;
 import ke.co.toshngure.basecode.utils.Spanny;
+import ke.co.toshngure.logging.BeeLog;
+import ke.co.toshngure.views.NetworkImage;
 import ke.co.toshngure.views.ToshTextView;
 import ke.go.nyandarua.nyantalk.R;
+import ke.go.nyandarua.nyantalk.network.BackEnd;
 
 public class Ticket extends AbstractItem<Ticket, Ticket.ViewHolder> implements Parcelable {
 
+    private static final String TAG = "Ticket";
 
     public boolean isComplete() {
         return this.status.equals(STATUS.COMPLETED);
@@ -36,6 +40,7 @@ public class Ticket extends AbstractItem<Ticket, Ticket.ViewHolder> implements P
     private String updatedAt;
     private String createdAt;
     private String status;
+    private String image;
     private String details;
     private String subject;
     private String assignedOfficialAt;
@@ -164,6 +169,8 @@ public class Ticket extends AbstractItem<Ticket, Ticket.ViewHolder> implements P
         ToshTextView wardTV;
         @BindView(R.id.numberTV)
         TextView numberTV;
+        @BindView(R.id.imageNI)
+        NetworkImage imageNI;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -184,6 +191,13 @@ public class Ticket extends AbstractItem<Ticket, Ticket.ViewHolder> implements P
             responsesCountTV.setText(new Spanny(String.valueOf(item.getResponsesCount())).append(" responses"));
             createdAtTV.setReferenceTime(DatesHelper.formatSqlTimestamp(item.getCreatedAt()));
             wardTV.setText(new Spanny(item.getWard().getName()).append(", ").append(item.getWard().getSubCounty().getName()));
+            if (!TextUtils.isEmpty(item.image)) {
+                BeeLog.i(TAG, BackEnd.image(item.image));
+                imageNI.loadImageFromNetwork(BackEnd.image(item.image));
+                imageNI.setVisibility(View.VISIBLE);
+            } else {
+                imageNI.setVisibility(View.GONE);
+            }
         }
 
         @Override
@@ -192,6 +206,9 @@ public class Ticket extends AbstractItem<Ticket, Ticket.ViewHolder> implements P
         }
     }
 
+    public String getImage() {
+        return image;
+    }
 
     public boolean isRated() {
         return isRated;
@@ -228,6 +245,7 @@ public class Ticket extends AbstractItem<Ticket, Ticket.ViewHolder> implements P
         dest.writeString(this.updatedAt);
         dest.writeString(this.createdAt);
         dest.writeString(this.status);
+        dest.writeString(this.image);
         dest.writeString(this.details);
         dest.writeString(this.subject);
         dest.writeString(this.assignedOfficialAt);
@@ -245,6 +263,7 @@ public class Ticket extends AbstractItem<Ticket, Ticket.ViewHolder> implements P
         this.updatedAt = in.readString();
         this.createdAt = in.readString();
         this.status = in.readString();
+        this.image = in.readString();
         this.details = in.readString();
         this.subject = in.readString();
         this.assignedOfficialAt = in.readString();

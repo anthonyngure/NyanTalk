@@ -18,7 +18,7 @@
     <string name="quit_nyantalk">Quit NyanTalk</string>
     <string name="copyright">County Government of Nyandarua</string>
     <string name="or">OR</string>
-    <string name="login_with_facebook">Login With Facebook</string>
+    <string name="login_with_facebook">Facebook</string>
     <string name="login_with_phone">Login/Register With Phone</string>
     <string name="about">NyanTalk will help you to raise issues, complains and suggestions to Nyandarua County.
         You can also participate on a discussion forum to discuss county issues with other residents.
@@ -67,7 +67,7 @@
     <string name="guide_enter_verification_code">Enter the 4-digit code sent to your mobile number </string>
     <string name="verify_phone_number">Verify Phone Number</string>
     <string name="allow_sms_notifications">Allow SMS notifications</string>
-    <string name="tickets_message_empty_data">You have not raised an issue or complain yet :(</string>
+    <string name="tickets_message_empty_data">You have not raised an issue or complain yet \n :( Tap to refresh or check later</string>
     <string name="topics_message_empty_data">There are no topics to show now :(</string>
     <string name="hint_new_password">New Password</string>
     <string name="error_new_password">You must enter a new password!</string>
@@ -107,4 +107,5 @@
     <string name="submit_your_rating">Submit your rating</string>
     <string name="hint_rating_comment">Give an optional brief comment</string>
     <string name="heading_ticket_rated">Ticket completed! Thank you for rating the response</string>
+    <string name="login_with_social_media">Login With Social Media</string>
 </resources>

@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.items.AbstractItem;
 
@@ -63,7 +62,7 @@ public class Contribution extends AbstractItem<Contribution, Contribution.ViewHo
 
         @Override
         public void bindView(Contribution item, List<Object> payloads) {
-            avatarTV.loadImageFromNetwork(BackEnd.avatarUrl(item.author.getAvatar()));
+            avatarTV.loadImageFromNetwork(BackEnd.image(item.author.getAvatar()));
             nameTV.setText(item.author.getName());
             textTV.setText(item.getText());
             createdAtTV.setReferenceTime(DatesHelper.formatSqlTimestamp(item.getCreatedAt()) - 30000);
