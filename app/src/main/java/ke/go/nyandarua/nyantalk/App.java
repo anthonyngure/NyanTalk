@@ -70,6 +70,16 @@ public class App extends MultiDexApplication {
             protected void onReportError(JSONObject response) {
                 super.onReportError(response);
             }
+
+            @Override
+            public boolean enableRedirects() {
+                return false;
+            }
+
+            @Override
+            public boolean enableRelativeRedirects() {
+                return false;
+            }
         });
     }
 }

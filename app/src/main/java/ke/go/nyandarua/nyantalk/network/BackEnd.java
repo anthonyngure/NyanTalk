@@ -9,8 +9,8 @@ package ke.go.nyandarua.nyantalk.network;
 
 public class BackEnd {
 
-    public static final String BASE_URL = "http://41.215.138.10:10046/api/v1";
-    public static final String URL = "http://41.215.138.10:10046";
+    public static final String BASE_URL = "http://complaint-api.nyandarua.go.ke/api/v1";
+    public static final String URL = "http://complaint-api.nyandarua.go.ke";
 
     public static String image(String relativeUrl) {
         return URL + "/" + relativeUrl;
@@ -24,23 +24,9 @@ public class BackEnd {
         public static final String AUTH_FACEBOOK = "/auth/facebook";
         public static final String AUTH_GOOGLE = "/auth/google";
         public static final String AUTH_VERIFICATION = "/auth/verification";
-        public static final String APPOINTMENTS = "/appointments";
-        public static final String CANCEL = "/cancel";
-        public static final String ACCEPT = "/accept";
-        public static final String COMPLETE = "/complete";
-        public static final String REJECT = "/reject";
-        public static final String CATEGORIES = "/categories";
         public static final String AUTH = "/auth";
         public static final String AUTH_RECOVER_PASSWORD = "/auth/password/recover";
         public static final String AUTH_RESET_PASSWORD = "/auth/password/reset";
-        public static final String USERS = "/users";
-        public static final String PORTFOLIOS = "/portfolios";
-        public static final String PRICES = "/prices";
-        public static final String CERTIFICATES = "/certificates";
-        public static final String REVIEWS = "/reviews";
-        public static final String SUBSCRIPTIONS = "/subscriptions";
-        public static final String SUBSCRIPTIONS_ACTIVE = "/subscriptions/active";
-        public static final String UNAVAILABLES = "/unavailables";
         public static final String AUTH_CHANGE_PASSWORD = "/auth/password/change";
         public static final String RESPONSES = "/responses";
         public static final String TICKETS_CREATE = "/tickets/create";

@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'NyanTalk'
+            keyPassword 'nyantalk'
+            storeFile file('D:/AndroidStudioProjects/NyanTalk/keystore.jks')
+            storePassword 'nyantalk'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         multiDexEnabled true
@@ -24,6 +32,7 @@ android {
             pseudoLocalesEnabled false
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     packagingOptions {
@@ -44,68 +53,53 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     greendao {
         schemaVersion 2
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.stepstone.stepper:material-stepper:4.3.1'
-
     implementation 'com.github.anthonyngure.AndroidBaseCode:basecode:-SNAPSHOT'
     implementation 'com.github.anthonyngure.AndroidBaseCode:views:-SNAPSHOT'
     implementation 'com.github.anthonyngure.AndroidBaseCode:logging:-SNAPSHOT'
     implementation 'com.github.anthonyngure.AndroidBaseCode:dataloading2:-SNAPSHOT'
     implementation 'com.github.anthonyngure.AndroidBaseCode:camera:-SNAPSHOT'
     //implementation 'com.github.anthonyngure:AndroidBaseCode:master-SNAPSHOT'
-
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
-
-    implementation 'com.mikepenz:fastadapter-commons:3.2.5'
-    implementation 'com.mikepenz:fastadapter-extensions:3.2.5'
-    implementation 'com.mikepenz:fastadapter-extensions-expandable:3.2.5'
-
+    implementation 'com.mikepenz:fastadapter-commons:3.2.7'
+    implementation 'com.mikepenz:fastadapter-extensions:3.2.7'
+    implementation 'com.mikepenz:fastadapter-extensions-expandable:3.2.7'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.wang.avi:library:2.1.3'
     implementation 'com.loopj.android:android-async-http:1.4.9'
-    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.synnapps:carouselview:0.1.4'
-
     implementation 'com.android.support:multidex:1.0.3'
-
-    implementation 'com.jakewharton:butterknife:8.5.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.android.support:customtabs:27.1.1'
     implementation 'saschpe.android:customtabs:1.1.2'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation('com.rengwuxian.materialedittext:library:2.1.4') {
         exclude group: 'com.android.support'
     }
-
-    implementation('com.mikepenz:materialdrawer:6.0.2@aar') {
+    implementation('com.mikepenz:materialdrawer:6.0.8@aar') {
         transitive = true
     }
-
     //https://github.com/jaredrummler/MaterialSpinner
     implementation 'com.jaredrummler:material-spinner:1.2.5'
-
-
     implementation 'com.facebook.android:facebook-android-sdk:4.33.0'
     implementation 'com.justkiddingbaby:vercodeedittext:1.0.5'
     //https://github.com/stfalcon-studio/SmsVerifyCatcher
     implementation 'com.github.stfalcon:smsverifycatcher:0.3.1'
     implementation 'com.github.sujithkanna:smileyrating:1.6.8'
-
     // And ProGuard rules for RxJava!
     implementation 'com.artemzin.rxjava:proguard-rules:1.2.10.0'
-
 }
 
 configurations.all {

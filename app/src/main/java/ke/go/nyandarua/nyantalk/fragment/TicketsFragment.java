@@ -13,6 +13,8 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
+import com.mikepenz.fastadapter.FastAdapter;
+import com.mikepenz.fastadapter.adapters.ItemAdapter;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 
 import java.util.Objects;
@@ -40,8 +42,8 @@ public class TicketsFragment extends ModelListFragment<Ticket> {
         public void onReceive(Context context, Intent intent) {
             if (!TextUtils.isEmpty(intent.getAction()) && intent.getAction().equals(ACTION_NEW_TICKET)) {
                 Ticket ticket = intent.getParcelableExtra(Extras.TICKET);
-                if (mFastItemAdapter.getItemCount() != 0) {
-                    mFastItemAdapter.add(0, ticket);
+                if (mItemAdapter.getAdapterItemCount() != 0) {
+                    mItemAdapter.add(0, ticket);
                     mRecyclerView.smoothScrollToPosition(0);
                 } else {
                     refresh();
@@ -104,9 +106,9 @@ public class TicketsFragment extends ModelListFragment<Ticket> {
     }
 
     @Override
-    public void onSetUpAdapter(FastItemAdapter<Ticket> fastItemAdapter) {
-        super.onSetUpAdapter(fastItemAdapter);
-        fastItemAdapter.withOnClickListener((v, adapter, item, position) -> {
+    public void onSetUpAdapter(ItemAdapter<Ticket> itemAdapter, FastAdapter<Ticket> fastAdapter) {
+        super.onSetUpAdapter(itemAdapter, fastAdapter);
+        mFastAdapter.withOnClickListener((v, adapter, item, position) -> {
             ReusableFragmentActivity.start((AppCompatActivity) Objects.requireNonNull(getActivity()),
                     ResponsesFragment.newInstance(item), getString(R.string.responses));
             return false;

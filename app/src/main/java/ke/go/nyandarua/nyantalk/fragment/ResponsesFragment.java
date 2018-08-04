@@ -236,11 +236,11 @@ public class ResponsesFragment extends ModelListFragment<Response> {
         protected void onResponse(Response item) {
             super.onResponse(item);
             //BeeLog.i(TAG, item);
-            if (mFastItemAdapter.getItemCount() == 0){
+            if (mItemAdapter.getAdapterItemCount() == 0){
                 refresh();
             } else {
-                mFastItemAdapter.add(item);
-                mRecyclerView.smoothScrollToPosition((mFastItemAdapter.getItemCount() - 1));
+                mItemAdapter.add(item);
+                mRecyclerView.smoothScrollToPosition((mItemAdapter.getAdapterItemCount() - 1));
             }
             mReplyET.getText().clear();
         }

@@ -14,7 +14,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
+import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
+import com.mikepenz.fastadapter.adapters.ItemAdapter;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.listeners.OnClickListener;
 
@@ -45,8 +47,8 @@ public class TopicsFragment extends ModelListFragment<Topic> {
         public void onReceive(Context context, Intent intent) {
             if (!TextUtils.isEmpty(intent.getAction()) && intent.getAction().equals(ACTION_NEW_TOPIC)) {
                 Topic topic = intent.getParcelableExtra(Extras.TOPIC);
-                if (mFastItemAdapter.getItemCount() != 0) {
-                    mFastItemAdapter.add(0, topic);
+                if (mItemAdapter.getAdapterItemCount() != 0) {
+                    mItemAdapter.add(0, topic);
                     mRecyclerView.smoothScrollToPosition(0);
                 } else {
                     refresh();
@@ -106,9 +108,9 @@ public class TopicsFragment extends ModelListFragment<Topic> {
     }
 
     @Override
-    public void onSetUpAdapter(FastItemAdapter<Topic> fastItemAdapter) {
-        super.onSetUpAdapter(fastItemAdapter);
-        fastItemAdapter.withOnClickListener((v, adapter, item, position) -> {
+    public void onSetUpAdapter(ItemAdapter<Topic> itemAdapter, FastAdapter<Topic> fastAdapter) {
+        super.onSetUpAdapter(itemAdapter, fastAdapter);
+        mFastAdapter.withOnClickListener((v, adapter, item, position) -> {
             ReusableFragmentActivity.start((AppCompatActivity) Objects.requireNonNull(getActivity()),
                     ContributionsFragment.newInstance(item), getString(R.string.contributions));
             return false;

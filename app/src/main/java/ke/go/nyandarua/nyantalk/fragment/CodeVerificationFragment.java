@@ -69,8 +69,8 @@ public class CodeVerificationFragment extends Fragment implements Step {
     Unbinder unbinder;
 
     //private static final long RESEND_DELAY = 30 * 1000; //30 seconds
-    //private static final long RESEND_DELAY = 60 * 1000; //1 minute
-    private static final long RESEND_DELAY = 60 * 5 * 1000; //5 minutes
+    private static final long RESEND_DELAY = 60 * 1000; //1 minute
+    //private static final long RESEND_DELAY = 60 * 5 * 1000; //5 minutes
     @BindView(R.id.rootView)
     RelativeLayout rootView;
     private SmsVerifyCatcher smsVerifyCatcher;
